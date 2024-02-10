@@ -1,0 +1,17 @@
+{
+  "name": "react_video_calling_app",
+  "version": "1.0.0",
+  "description": "react app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "devagya rattan",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "serve": "^14.2.1",
+    "socket.io": "^4.7.4"
+  }
+}
