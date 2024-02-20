@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
 import io from "socket.io-client";
+import { MdAssignment } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
 const socket = io.connect("http://localhost:5000");
 function App() {
   const [me, setMe] = useState("");
@@ -84,9 +86,74 @@ function App() {
   };
   return (
     <>
-      <h1 className="heading flex justify-center items-center py-5 text-5xl font-semibold">Zoomish</h1>
+      <h1 className="heading flex justify-center items-center py-5 text-5xl font-semibold">
+        Zoomish
+      </h1>
       <div className="container">
-
+        <div className="video-container">
+          <div className="video">
+            {stream && (
+              <video
+                playsInline
+                muted
+                ref={myVideo}
+                autoPlay
+                style={{ width: "300px" }}
+              />
+            )}
+          </div>
+          <div className="video">
+            {callAccepted && !callEnded ? (
+              <video
+                playsInline
+                ref={userVideo}
+                autoPlay
+                style={{ width: "300px" }}
+              />
+            ) : null}
+          </div>
+        </div>
+        <div className="myId">
+          <input
+            label="Name"
+            type="text"
+            className="border rounded-md p-2"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={{ marginBottom: "20px" }}
+          />
+          <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
+            <button>
+              <MdAssignment fontSize="large" />
+            </button>
+          </CopyToClipboard>
+          <input
+            label="ID to call"
+            type="text"
+            className="border rounded-md p-2"
+            value={idToCall}
+            onChange={(e) => setIdToCall(e.target.value)}
+            style={{ marginBottom: "20px" }}
+          />
+          <div className="call-button">
+            {callAccepted && !callEnded ? (
+              <button onClick={leaveCall}>End Call</button>
+            ) : (
+              <FaPhoneAlt fontSize="large" onClick={() => callUser(idToCall)} />
+            )}
+            {idToCall}
+          </div>
+        </div>
+        <div>
+          {receivingCall && !callAccepted ? (
+            <div className="caller">
+              <h1>{name} is calling...</h1>
+              <button  onClick={answerCall}>
+                Answer
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
     </>
   );
